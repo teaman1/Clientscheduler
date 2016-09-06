@@ -18,16 +18,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".LoginActivity"
+            android:name=".login"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".newcustomersession"
+                  android:label="@string/app_name"
+                  android:theme="@style/AppTheme">
 
+        </activity>
     </application>
-
+    <!--   android:theme="@style/AppTheme.NoActionBar"        -->
 </manifest>

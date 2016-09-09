@@ -32,7 +32,7 @@ public class login extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(login.this, "Button Pressed", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(login.this, newcustomersession.class);
+                Intent i = new Intent(login.this, addnewcustomer.class);
                 startActivity(i);
             }
         });

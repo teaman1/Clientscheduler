@@ -11,15 +11,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewOutlineProvider;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.Toast;
 
 /**
- * Created by teaman1 on 8/30/2016.
+ * Created by teaman1 on 9/8/2016.
  */
-public class fragment extends Fragment {
+public class newsession extends Fragment{
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
     private Button enter;
@@ -27,14 +25,14 @@ public class fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.addnewcustomer, container, false);
+        View v = inflater.inflate(R.layout.newcustomersession, container, false);
 
-        enter = (Button)v.findViewById(R.id.button2);
+        enter = (Button)v.findViewById(R.id.button1);
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Button Pressed", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getActivity(), newcustomersession.class);
+                Intent i = new Intent(getActivity(), customerreceipt.class);
                 startActivity(i);
             }
         });
@@ -63,7 +61,7 @@ public class fragment extends Fragment {
             case R.id.menu_item_new_crime:
                 FragmentManager manager = getFragmentManager();
                 DatePickerFragment dialog = new DatePickerFragment();
-                dialog.setTargetFragment(fragment.this, REQUEST_DATE);
+                dialog.setTargetFragment(newsession.this, REQUEST_DATE);
                 dialog.show(manager,DIALOG_DATE);
                 return true;
         }
@@ -82,6 +80,7 @@ public class fragment extends Fragment {
             startActivity(i);
         }
     }
-
-
 }
+
+
+

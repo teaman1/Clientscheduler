@@ -27,6 +27,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".navigation"></activity>
+        <activity android:name=".clientlist"></activity>
         <activity android:name=".newcustomersession"
                   android:label="@string/app_name"
                   android:theme="@style/AppTheme">

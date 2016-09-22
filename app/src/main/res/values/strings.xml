@@ -30,4 +30,7 @@
     <string name="submit_payment">submit_payment</string>
     <string name="Payment_amount_$$">Payment_amount_$$</string>
     <string name="View_receipt">View_receipt</string>
-    </resources>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

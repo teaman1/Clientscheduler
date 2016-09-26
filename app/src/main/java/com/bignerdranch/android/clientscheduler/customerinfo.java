@@ -11,9 +11,12 @@ public class customerinfo {
     private String mTitle;
     private String clientlist;
 
-    public customerinfo(){
-        // Generate unique identitfier
-        mId = UUID.randomUUID();}
+    public customerinfo() {
+        this(UUID.randomUUID());
+    }
+    public customerinfo(UUID id){
+        mId = id;
+    }
 public UUID getId() {
         return mId;
 }

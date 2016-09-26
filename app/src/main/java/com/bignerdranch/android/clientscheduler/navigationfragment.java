@@ -54,7 +54,7 @@ public class navigationfragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "Button Pressed", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getActivity(), clientlist.class);
+                Intent i = new Intent(getActivity(), customer.class);
                 startActivity(i);
             }
         });

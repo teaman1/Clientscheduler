@@ -7,16 +7,16 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sessionlist"
+        android:text=" show current session "
         android:id="@+id/sessionlist" android:layout_gravity="center_horizontal"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="customerlist"
+        android:text="our customers "
         android:id="@+id/customerlist" android:layout_gravity="center_horizontal"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="customerreceipt"
+        android:text="show receipt"
         android:id="@+id/customerreceipt" android:layout_gravity="center_horizontal"/>
 </LinearLayout>

@@ -3,6 +3,7 @@ package com.bignerdranch.android.clientscheduler;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -97,6 +99,8 @@ public class customerhelp extends Fragment {
         private customerinfo mCustomerinfo;
         private TextView mTitleTextView;
         private ImageView mImageView;
+        private File mPhotoFile;
+
         public clientlistholder(View itemView){
             super(itemView);
             itemView.setOnClickListener(this);
@@ -106,12 +110,24 @@ public class customerhelp extends Fragment {
         public void bindcustomerinfo(customerinfo Customerinfo){
             mCustomerinfo = Customerinfo;
             mTitleTextView.setText(mCustomerinfo.getTitle());
+            mPhotoFile = Crimelab.get(getActivity()).getPhotoFile(mCustomerinfo);
+            updatePhotoView();
         }
 
         @Override
         public void onClick(View v) {
             Intent intent = addnewcustomer.newIntent(getActivity(),mCustomerinfo.getId());
             startActivity(intent);
+        }
+
+        private void updatePhotoView(){
+            if (mImageView == null || !mPhotoFile.exists()) {
+                mImageView.setImageDrawable(null);
+            }else {
+                Bitmap bitmap = PictureUtils.getScaledBitmap(
+                        mPhotoFile.getPath(), getActivity());
+                mImageView.setImageBitmap(bitmap);
+            }
         }
     }
 

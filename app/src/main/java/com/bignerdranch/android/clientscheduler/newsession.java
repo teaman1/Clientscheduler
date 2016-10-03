@@ -20,22 +20,11 @@ import android.widget.Toast;
 public class newsession extends Fragment{
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
-    private Button enter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.newcustomersession, container, false);
-
-        enter = (Button)v.findViewById(R.id.button1);
-        enter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Button Pressed", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getActivity(), customerreceipt.class);
-                startActivity(i);
-            }
-        });
 
         return v;
     }

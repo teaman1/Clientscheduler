@@ -34,8 +34,11 @@ public UUID getId() {
     public void setClientlist(String clientlist) {
         this.clientlist = clientlist;
     }
-}
+    public String getPhotoFilename(){
+        return "IMG_" + getId().toString() + ".jpg";
+    }
 
+    }
 
 
 

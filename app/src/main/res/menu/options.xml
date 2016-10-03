@@ -10,7 +10,7 @@ app:showAsAction="ifRoom|withText"/>
     <item
         android:id="@+id/menu_item_new_customer"
         android:icon="@android:drawable/ic_menu_add"
-        android:title="string"
+        android:title="add new customer"
         app:showAsAction="ifRoom|withText"/>
 
 

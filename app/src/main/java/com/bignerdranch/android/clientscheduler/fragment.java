@@ -3,9 +3,16 @@ package com.bignerdranch.android.clientscheduler;
 import android.animation.ArgbEvaluator;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -18,9 +25,12 @@ import android.view.ViewOutlineProvider;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.UUID;
+import java.util.jar.Manifest;
 
 /**
  * Created by teaman1 on 8/30/2016.
@@ -29,8 +39,12 @@ public class fragment extends Fragment {
     private static final String ARG_customer_ID = "customer_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
+    private static final int CAMERA_PERMISSION = 1;
+    private static final int REQUEST_PHOTO= 2;
     private customerinfo mCustomerinfo;
-    private Button enter;
+    private File mPhotoFile;
+    private ImageView mImageView;
+    private Button mButton;
     private EditText clientlist;
     private EditText customer;
 
@@ -47,15 +61,7 @@ public class fragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.addnewcustomer, container, false);
 
-        enter = (Button)v.findViewById(R.id.button2);
-        enter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), "Button Pressed", Toast.LENGTH_SHORT).show();
-                Intent i = new Intent(getActivity(), newcustomersession.class);
-                startActivity(i);
-            }
-        });
+
 
         clientlist = (EditText)v.findViewById(R.id.clientlist);
         clientlist.setText(mCustomerinfo.getTitle());
@@ -94,8 +100,60 @@ public class fragment extends Fragment {
 
             }
         });
+        mButton = (Button) v.findViewById(R.id.button1);
+        PackageManager packageManager = getActivity().getPackageManager();
+        final Intent captureImage = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        boolean canTakePhoto = mPhotoFile != null &&
+                captureImage.resolveActivity(packageManager) != null;
+        mButton.setEnabled(canTakePhoto);
+
+        if(ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.CAMERA}, CAMERA_PERMISSION);
+        }
+
+        if (canTakePhoto){
+            Uri uri = Uri.fromFile(mPhotoFile);
+            captureImage.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+
+        }
+
+        mButton.setOnClickListener(new  View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           try {
+                                               startActivityForResult(captureImage, REQUEST_PHOTO);
+                                           }
+                                           catch (Exception e){
+                                               Toast.makeText(
+                                                       getActivity(), "Could not take picture", Toast.LENGTH_SHORT
+                                               ).show();
+                                           }
+                                       }
+                                   });
+        mImageView = (ImageView) v.findViewById(R.id.image);
+        try {
+            updatePhotoView();
+        }
+        catch (Exception e ){
+            e.printStackTrace();
+        }
+
 
         return v;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case CAMERA_PERMISSION:
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getActivity(), "Please grant camera permission to use the QR Scanner", Toast.LENGTH_SHORT).show();
+                }
+                return;
+        }
     }
 
     @Override
@@ -110,6 +168,7 @@ public class fragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID customerId = (UUID)getArguments().getSerializable(ARG_customer_ID);
         mCustomerinfo = Crimelab.get(getActivity()).getCrime(customerId);
+        mPhotoFile = Crimelab.get(getActivity()).getPhotoFile(mCustomerinfo);
 
 
         setHasOptionsMenu(true);
@@ -145,11 +204,32 @@ public class fragment extends Fragment {
 
 
         }
-        if(requestCode==REQUEST_DATE){
+        if(requestCode==REQUEST_DATE) {
             Intent i = new Intent(getActivity(), login.class);
             startActivity(i);
+        } else if (requestCode == REQUEST_PHOTO){
+            try {
+                updatePhotoView();
+            }
+            catch (Exception e ){
+                e.printStackTrace();
+            }
+        }
+
+
+    }
+    private void updatePhotoView(){
+        if (mImageView == null || !mPhotoFile.exists()) {
+            mImageView.setImageDrawable(null);
+        }else {
+            Bitmap bitmap = PictureUtils.getScaledBitmap(
+                    mPhotoFile.getPath(), getActivity());
+            mImageView.setImageBitmap(bitmap);
         }
     }
-
-
 }
+
+
+
+
+
